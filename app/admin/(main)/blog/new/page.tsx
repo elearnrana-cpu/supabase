@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -9,10 +9,12 @@ import { Textarea } from "@/components/ui/textarea";
 import { createClient } from "@/lib/supabase/client";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
+import { ImageUpload } from "@/components/admin/image-upload";
 
 export default function NewBlogPostPage() {
   const router = useRouter();
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const coverUrlRef = useRef<HTMLInputElement>(null);
 
   async function handleSubmit(formData: FormData) {
     setIsSubmitting(true);
@@ -22,6 +24,7 @@ export default function NewBlogPostPage() {
     const slug = formData.get("slug") as string;
     const excerpt = formData.get("excerpt") as string;
     const content = formData.get("content") as string;
+    const coverUrl = formData.get("cover_url") as string;
     const published = formData.get("published") === "on";
     const publishedAt = published ? new Date().toISOString() : null;
 
@@ -30,6 +33,7 @@ export default function NewBlogPostPage() {
       slug,
       excerpt,
       content,
+      cover_url: coverUrl || null,
       published,
       published_at: publishedAt,
     });
@@ -61,6 +65,16 @@ export default function NewBlogPostPage() {
                 <Label htmlFor="slug">Slug</Label>
                 <Input id="slug" name="slug" required />
               </div>
+            </div>
+
+            <div className="space-y-2">
+              <Label>Cover Image</Label>
+              <ImageUpload
+                onUpload={(url) => {
+                  if (coverUrlRef.current) coverUrlRef.current.value = url;
+                }}
+              />
+              <input ref={coverUrlRef} type="hidden" name="cover_url" />
             </div>
 
             <div className="space-y-2">
