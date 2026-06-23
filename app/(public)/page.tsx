@@ -2,7 +2,7 @@ import { createClient } from "@/lib/supabase/server";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import Link from "next/link";
-import { ArrowRight, ExternalLink, Mail, GitBranch, Link2, MessageSquare } from "lucide-react";
+import { ArrowRight, ExternalLink, Mail, GitBranch, Link2 } from "lucide-react";
 import { ThemeToggle } from "@/components/theme-toggle";
 
 async function getProfile() {
@@ -71,8 +71,9 @@ export default async function HomePage() {
 
       <main className="container mx-auto px-4 py-8">
         <section className="py-20 text-center">
-          <h1 className="text-4xl font-bold sm:text-5xl">{profile?.title || "Hi, I'm Rana"}</h1>
-          <p className="mt-4 text-xl text-muted-foreground">{profile?.tagline || "Building digital experiences"}</p>
+          <h1 className="text-4xl font-bold sm:text-5xl">{profile?.name}</h1>
+          <p className="mt-2 text-xl text-muted-foreground">{profile?.title || "Developer"}</p>
+          <p className="mt-1 text-lg text-muted-foreground">{profile?.tagline}</p>
           <div className="mt-6 flex justify-center space-x-4">
             <Button asChild>
               <Link href="#projects">
@@ -81,7 +82,8 @@ export default async function HomePage() {
               </Link>
             </Button>
             <Button variant="outline" asChild>
-              <Link href={`mailto:${profile?.email || "hello@rana.dev"}`}>
+              <Link href={profile?.socials && (profile.socials as Record<string, string>).email ? `mailto:${(profile.socials as Record<string, string>).email}` : "mailto:hello@rana.dev"}>
+                <Mail className="mr-2 h-4 w-4" />
                 Contact Me
               </Link>
             </Button>
@@ -145,12 +147,14 @@ export default async function HomePage() {
             </CardHeader>
             <CardContent>
               <p className="text-muted-foreground mb-4">{profile?.bio}</p>
-              <div className="flex space-x-4">
+              <div className="flex flex-wrap gap-4 mb-4">
                 {profile?.socials && Object.entries(profile.socials as Record<string, string>).map(([name, url]) => {
-                  const Icon = name === "github" ? GitBranch : name === "linkedin" ? Link2 : MessageSquare;
+                  const icons: Record<string, typeof Link2> = { github: GitBranch, facebook: Link2, x: Link2, email: Mail, phone: Link2 };
+                  const Icon = icons[name] || Link2;
                   return url ? (
-                    <Link key={name} href={url} target="_blank">
-                      <Icon className="h-5 w-5 hover:text-primary" />
+                    <Link key={name} href={url.startsWith("http") ? url : `mailto:${url}`} target={url.startsWith("http") ? "_blank" : undefined} className="flex items-center gap-1 text-sm hover:underline">
+                      <Icon className="h-4 w-4" />
+                      {name === "phone" ? url : name}
                     </Link>
                   ) : null;
                 })}
@@ -217,7 +221,7 @@ export default async function HomePage() {
 
       <footer className="border-t py-6 text-center">
         <p className="text-sm text-muted-foreground">
-          © {new Date().getFullYear()} Rana. All rights reserved.
+          © {new Date().getFullYear()} {profile?.name || "Rana"}. All rights reserved.
         </p>
       </footer>
     </div>

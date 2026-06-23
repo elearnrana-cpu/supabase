@@ -129,15 +129,15 @@ create policy "Admin can insert resume"
 -- Seed initial profile
 insert into profile (name, title, tagline, bio, skills, socials)
 values (
-  'Rana',
-  'Full Stack Developer',
-  'Building digital experiences',
-  'Passionate developer focused on modern web technologies.',
-  '["Next.js", "React", "Supabase", "TypeScript"]'::jsonb,
-  '{"github": "https://github.com", "linkedin": "https://linkedin.com/in"}'::jsonb
+  'Enamul Hasan Rana',
+  'Web & App Developer',
+  'Building digital solutions from Dhaka, Bangladesh',
+  'I''m a Web Developer, App Developer, Digital Marketer, and AI Automation learner based in Dhaka, Bangladesh. Passionate about building innovative digital solutions.',
+  '["Web Development", "App Development", "Digital Marketing", "AI Automation", "Next.js", "React", "Supabase"]'::jsonb,
+  '{"github": "https://github.com/elearnrana-cpu", "facebook": "https://www.facebook.com/enamulranaofficial", "x": "https://x.com/elearnrana", "email": "elearnrana@gmail.com", "phone": "+8801744552561"}'::jsonb
 );
 
 -- Seed site settings
 insert into site_settings (site_title, site_description, default_theme)
-values ('Rana''s Portfolio', 'Personal portfolio', 'dark')
+values ('Enamul Hasan Rana''s Portfolio', 'Web Developer, App Developer, Digital Marketer, and AI Automation learner', 'dark')
 on conflict do nothing;

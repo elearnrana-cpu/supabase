@@ -15,8 +15,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Portfolio | Rana",
-  description: "Personal portfolio showcasing projects and skills",
+  title: "Enamul Hasan Rana | Portfolio",
+  description: "Web Developer, App Developer, Digital Marketer, and AI Automation learner from Dhaka, Bangladesh.",
 };
 
 export default function RootLayout({
