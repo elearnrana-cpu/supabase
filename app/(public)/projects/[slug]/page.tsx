@@ -17,7 +17,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
     .select("*")
     .eq("slug", slug)
     .eq("published", true)
-    .single();
+    .maybeSingle();
 
   if (error || !project) {
     notFound();

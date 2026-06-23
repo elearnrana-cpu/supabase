@@ -6,42 +6,54 @@ import { ArrowRight, ExternalLink, Mail, GitBranch, Link2 } from "lucide-react";
 import { ThemeToggle } from "@/components/theme-toggle";
 
 async function getProfile() {
-  const supabase = await createClient();
-  const { data, error } = await supabase.from("profile").select("*").single();
-  if (error) {
-    console.error("Error fetching profile:", error);
+try {
+    const supabase = await createClient();
+    const { data, error } = await supabase.from("profile").select("*").maybeSingle();
+    if (error) {
+      console.error("Error fetching profile:", error);
+      return null;
+    }
+    return data;
+  } catch {
     return null;
   }
-  return data;
 }
 
 async function getProjects() {
-  const supabase = await createClient();
-  const { data, error } = await supabase
-    .from("projects")
-    .select("*")
-    .eq("published", true)
-    .order("sort_order", { ascending: true });
-  if (error) {
-    console.error("Error fetching projects:", error);
+  try {
+    const supabase = await createClient();
+    const { data, error } = await supabase
+      .from("projects")
+      .select("*")
+      .eq("published", true)
+      .order("sort_order", { ascending: true });
+    if (error) {
+      console.error("Error fetching projects:", error);
+      return [];
+    }
+    return data;
+  } catch {
     return [];
   }
-  return data;
 }
 
 async function getBlogPosts() {
-  const supabase = await createClient();
-  const { data, error } = await supabase
-    .from("blog_posts")
-    .select("*")
-    .eq("published", true)
-    .order("published_at", { ascending: false })
-    .limit(3);
-  if (error) {
-    console.error("Error fetching blog posts:", error);
+  try {
+    const supabase = await createClient();
+    const { data, error } = await supabase
+      .from("blog_posts")
+      .select("*")
+      .eq("published", true)
+      .order("published_at", { ascending: false })
+      .limit(3);
+    if (error) {
+      console.error("Error fetching blog posts:", error);
+      return [];
+    }
+    return data;
+  } catch {
     return [];
   }
-  return data;
 }
 
 export default async function HomePage() {

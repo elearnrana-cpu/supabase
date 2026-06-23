@@ -17,7 +17,7 @@ export default async function BlogPost({ params }: BlogPostProps) {
     .select("*")
     .eq("slug", slug)
     .eq("published", true)
-    .single();
+    .maybeSingle();
 
   if (error || !post) {
     notFound();

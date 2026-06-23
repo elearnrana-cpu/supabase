@@ -12,9 +12,14 @@ export const createClient = async () => {
           return cookieStore.getAll();
         },
         setAll(cookiesToSet) {
-          cookiesToSet.forEach(({ name, value, options }) =>
-            cookieStore.set(name, value, options)
-          );
+          try {
+            cookiesToSet.forEach(({ name, value, options }) =>
+              cookieStore.set(name, value, options)
+            );
+          } catch {
+            // `cookies().set()` is not allowed in Server Components.
+            // Session refresh happens in proxy.ts instead.
+          }
         },
       },
     }
