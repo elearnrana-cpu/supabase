@@ -4,6 +4,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import Link from "next/link";
 import { ArrowRight, ExternalLink, Mail, GitBranch, Link2 } from "lucide-react";
 import { ThemeToggle } from "@/components/theme-toggle";
+import { ContactForm } from "@/components/public/contact-form";
 
 async function getProfile() {
 try {
@@ -200,32 +201,7 @@ export default async function HomePage() {
               <CardTitle>Get in Touch</CardTitle>
             </CardHeader>
             <CardContent>
-              <form action="/api/contact" method="post" className="space-y-4">
-                <div className="grid grid-cols-2 gap-4">
-                  <input
-                    type="text"
-                    name="name"
-                    placeholder="Name"
-                    required
-                    className="px-3 py-2 border rounded-md"
-                  />
-                  <input
-                    type="email"
-                    name="email"
-                    placeholder="Email"
-                    required
-                    className="px-3 py-2 border rounded-md"
-                  />
-                </div>
-                <textarea
-                  name="message"
-                  placeholder="Message"
-                  required
-                  className="w-full px-3 py-2 border rounded-md"
-                  rows={5}
-                />
-                <Button type="submit">Send Message</Button>
-              </form>
+              <ContactForm />
             </CardContent>
           </Card>
         </section>

@@ -2,7 +2,6 @@ import { createAdminClient } from "@/lib/supabase/admin";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(request: NextRequest) {
-  const supabase = createAdminClient();
   const body = await request.json();
   const { name, email, message } = body;
 
@@ -10,6 +9,7 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: "Missing fields" }, { status: 400 });
   }
 
+  const supabase = createAdminClient();
   const { error } = await supabase.from("contact_messages").insert({
     name,
     email,
