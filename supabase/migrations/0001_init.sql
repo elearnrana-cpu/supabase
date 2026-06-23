@@ -127,17 +127,15 @@ create policy "Admin can insert resume"
   on storage.objects for insert with check (bucket_id = 'resume' and auth.jwt() ->> 'email' = 'elearnrana@gmail.com');
 
 -- Seed initial profile
-insert into profile (id, name, title, tagline, bio, skills, socials)
+insert into profile (name, title, tagline, bio, skills, socials)
 values (
-  'a4a8906e1-013b-4541-a5f8-78bebd37e2c7'::uuid,
   'Rana',
   'Full Stack Developer',
   'Building digital experiences',
   'Passionate developer focused on modern web technologies.',
   '["Next.js", "React", "Supabase", "TypeScript"]'::jsonb,
-  '{"github":"https://github.com","linkedin":"https://linkedin.com/in"}'::jsonb
-)
-on conflict (id) do nothing;
+  '{"github": "https://github.com", "linkedin": "https://linkedin.com/in"}'::jsonb
+);
 
 -- Seed site settings
 insert into site_settings (site_title, site_description, default_theme)
