@@ -110,12 +110,9 @@ create policy "Admin full access to site_settings"
   on site_settings for all
   using (auth.jwt() ->> 'email' = 'elearnrana@gmail.com');
 
--- Storage policies
-create bucket if not exists media;
-create bucket if not exists resume;
-
--- Make buckets public
-alter table storage.objects enable row level security;
+-- Storage buckets
+insert into storage.buckets (id, name, public) values ('media', 'media', true) on conflict (id) do nothing;
+insert into storage.buckets (id, name, public) values ('resume', 'resume', true) on conflict (id) do nothing;
 
 create policy "Public can view media"
   on storage.objects for select using (bucket_id = 'media');
